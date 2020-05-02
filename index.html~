@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Michael Guerzhoy :: Homepage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="stylesheet" href="images/PixelGreen.css" type="text/css" />
+
+
+<link rel="apple-touch-icon" href="https://www.princeton.edu/themes/custom/tony/icons/apple-touch-icon.png" />
+<link rel="icon" type="image/png" href="https://www.princeton.edu/themes/custom/tony/icons/favicon-16x16.png" />
+<link rel="icon" type="image/png" href="https://www.princeton.edu/themes/custom/tony/icons/favicon-32x32.png" />
+
+
+</head>
+
+
+<body>
+<div id="wrap">
+  <div id="header">
+    <div id="header-content">
+      <h2 id="logo">Predictive Modelling and Algorithmic Fairness Early </h2>
+      <h2 id="slogan">Center for Statistics and Machine Learning, Princeton University</h2>
+      <ul>
+        <li><a href="" id="current">Home</a></li>
+        <li><a href="" id = "Tutorials">Tutorials</a></li>
+        <li><a href="" id = "Paper">Paper</a></li>
+      </ul>
+    </div>
+  </div>
+  <!--<div class="headerphoto"></div> -->
+  <div id="content-wrap">
+    <div id="content">
+      <div id="sidebar">
+        <div class="sidebox">
+ 	  <img src = "images/learningmachine_cool3.png" height = "150px" alt = "Learning Machine"/>
+	  <p/><tt>Center for Statistics and Machine Learning<br/>
+Princeton University<br/>
+26 Prospect Ave.<br/> 
+Princeton, NJ 08544<br/>
+Email: guerzhoy at princeton.edu</tt><br/>
+
+        </div>
+        <div class="sidebox">
+          <h1 class="clear">Menu</h1>
+          <ul class="sidemenu">
+            <li><a href="" class="top">Home</a></li>
+            <li><a href="#About">About</a></li>
+            <li><a href="#Tutorials">Tutorials</a></li>
+            <li><a href="#Paper">Paper</a></li>          
+	  </ul>
+        </div>
+ 
+
+
+      
+      </div>
+        <div class="post"> <a name="About"></a>
+	 <h2>About</h2>
+	 
+	</div>
+        <div class="post"> <a name="Tutorials"></a>
+	 <h2>Tutorials</h2>
+	 
+	</div>
+        <div class="post"> <a name="Paper"></a>
+	 <h2>About</h2>
+	 
+	</div>
+
+
+  <div id="footer">
+    <div id="footer-content">
+      <div class="col float-left">
+        <h3><a href = "http://csml.princeton.edu">Center for Statistics and Machine Learning</a></h3>
+	<p/>Princeton University<br/>
+        26 Prospect Ave.<br/>
+        Princeton, NJ 08544<br/>
+	609-258-9862
+      </div>
+      <div class="col float-left">
+
+
+	<p/><a href = "http://www.princeton.edu"><img src = "images/PU-standard.png" height = "80px" alt = "Princeton University logo"/></a>
+        <p/><a href = "https://accessibility.princeton.edu/">Accessibility</a> 	
+        <p/><a href = "https://www.princeton.edu/search">Princeton University search</a>
+
+
+      </div>
+      <div class="col2 float-right">
+        <p> &copy; Copyright 2019 <strong>The Trustees of Princeton University</strong><br />
+          Design by: <a href="http://www.styleshout.com"><strong>styleshout</strong></a> (download at <a href='http://all-free-download.com/free-website-templates/'>free website templates</a>)&nbsp; &nbsp; Valid <a href="http://jigsaw.w3.org/css-validator/check/referer"><strong>CSS</strong></a> | <a href="http://validator.w3.org/check/referer"><strong>XHTML</strong></a> </p>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+</body>
+</html>

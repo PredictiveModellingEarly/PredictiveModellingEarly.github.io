@@ -1,0 +1,251 @@
+---
+title: "Auditing the COMPAS Score: Predictive Modeling and Algorithmic Fairness"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(reshape2)
+```
+
+We will be using the dataset at [https://github.com/propublica/compas-analysis/raw/master/compas-scores-two-years.csv](https://github.com/propublica/compas-analysis/raw/master/compas-scores-two-years.csv). Reading it in:
+
+```{r}
+set.seed(0)
+compas <- read.csv("https://github.com/propublica/compas-analysis/raw/master/compas-scores-two-years.csv")
+```
+
+First, we'll obtain the set we'll be working with:
+
+```{r}
+idx <- sample(1:nrow(compas))
+
+idx.train <- idx[1:5000]
+idx.test <- idx[5001:6000]
+idx.valid <- idx[6001:7000]
+
+compas.train <- compas[idx.train,]
+compas.test <- compas[idx.test,]
+compas.valid <- compas[idx.valid,]
+```
+
+### Part 1: Comparing the scores of black and white defendants 
+
+We first explore whether white and black defendants get the same COMPAS scores.
+
+```{r}
+compas.bw <- compas.train %>% filter(race %in% c("African-American", "Caucasian"))
+
+ggplot(compas.bw, mapping = aes(x = decile_score)) +
+  geom_histogram(bins = 10, mapping = aes(y = ..density..)) + 
+  scale_x_continuous(breaks = c(1:10)) +
+  facet_wrap(~race)  + 
+  xlab("Decile score")
+```
+
+
+For African-American defendants, the distribution of the scores is approximately uniform. For Caucasian defendants, many more get low scores than high scores.
+
+### Part 2: Initial evaluation of the COMPAS scores
+
+Here, we are computing the FPR, FNR, and correct classification rate for different populations. First, we'll define functions to compute the quantities needed.
+
+```{r}
+get.FPR <- function(compas.set, thr){
+  return(sum((compas.set$decile_score >= thr) & (compas.set$is_recid == 0))/sum(compas.set$is_recid == 0))
+}
+
+get.FNR <- function(compas.set, thr){
+  return(sum((compas.set$decile_score < thr) & (compas.set$is_recid == 1))/sum(compas.set$is_recid == 1))
+}
+
+get.CCR <- function(compas.set, thr){
+  return(mean((compas.set$decile_score >= thr) == compas.set$is_recid))
+}
+
+```
+
+Compute the sets we need:
+
+```{r}
+compas.valid.b <- compas.valid %>% filter(race == "African-American")
+compas.valid.w <- compas.valid %>% filter(race == "Caucasian")
+```
+
+Now, we can compute the numbers:
+
+```{r}
+thr <- 5
+
+fps <- c(get.FPR(compas.valid.b, 5), get.FPR(compas.valid.w, 5), get.FPR(compas.valid, 5))
+fns <- c(get.FNR(compas.valid.b, 5), get.FNR(compas.valid.w, 5), get.FNR(compas.valid, 5))
+ccr <- c(get.CCR(compas.valid.b, 5), get.CCR(compas.valid.w, 5), get.CCR(compas.valid, 5))
+
+rates <- data.frame(FPR = fps, FNR = fns, CCR = ccr)
+rownames(rates) = c("black", "white", "all")
+rates
+```
+
+We can see that the scores do not satisfy false positive parity and do not satisfy false negative parity. The scores do satisfy classification parity. Demographic parity is also not satisfied.
+
+### Part 3: Altering the threshold
+
+We will now see how changing the threshold influences the false positive, false negative, and correct classification rates.
+
+```{r}
+get.rates <- function(thr, compas.set){
+  return(c(get.FPR(compas.set, thr), get.FNR(compas.set, thr), get.CCR(compas.set, thr)))
+}
+
+thrs <- seq(0.5, 9.5, 1)
+rates.w <- sapply(thrs, FUN=get.rates, compas.valid.w)
+rates.b <- sapply(thrs, FUN=get.rates, compas.valid.b)
+rates.all <- sapply(thrs, FUN=get.rates, compas.valid)
+
+plot.rates <- function(thrs, rates, caption){
+    rates.df <- data.frame(threshold = thrs, FPR = rates[1,], FNR = rates[2,], CCR = rates[3,])
+    rates.df.tidy <- melt(rates.df, 1) %>% select(threshold = threshold, measure = variable, rate = value)
+    ggplot(rates.df.tidy, mapping = aes(x = threshold, y = rate, color = measure)) +
+      geom_smooth(se = F, method = "loess") + labs(title = caption)
+}
+```
+
+We can now get three figures for the different demographics (let's forego using facets again):
+
+
+```{r}
+plot.rates(thrs, rates.w, "white defendants")
+plot.rates(thrs, rates.b, "black defendants")
+plot.rates(thrs, rates.all, "all defendants")
+```
+
+### Part 4: Trying to reproduce the score
+
+
+Let's fit the model:
+
+```{r}
+fit <- glm(is_recid ~ age + priors_count, family = binomial, data = compas.train)
+fit$coefficients
+```
+
+
+* An increase of 1 in the number of priors is associated with an increase of 0.17 in the log-odds of recidivism, all other things being equal.
+
+* An increase in age by one year corresponds to a decrease of 0.05 in the log-odds of recidivism.
+
+
+* (If we're being a bit silly and decide to extrapolate) according to the model, a newborn with no priors would have a probability of $\sigma(1.04) = 0.74$ of being re-arrested.
+
+Let's now obtain the FPR, FNR, and CCR for our model, using the threshold $0.5$.
+
+```{r}
+
+get.FPR.fit <- function(thr, compas.set, fit){
+  pred <- predict(fit, newdata = compas.set, type = "response") > thr
+  return(sum((pred == 1) & (compas.set$is_recid == 0))/sum(compas.set$is_recid == 0))
+}
+
+
+get.FNR.fit <- function(thr, compas.set, fit){
+  pred <- predict(fit, newdata = compas.set, type = "response") > thr
+  return(sum((pred == 0) & (compas.set$is_recid == 1))/sum(compas.set$is_recid == 1))
+}
+
+get.CCR.fit <- function(thr, compas.set, fit){
+  pred <- predict(fit, newdata = compas.set, type = "response") > thr
+  return(mean(pred == compas.set$is_recid))
+}
+
+compas.train.b <- compas.train %>% filter(race == "African-American")
+compas.train.w <- compas.train %>% filter(race == "Caucasian")
+compas.valid.b <- compas.valid %>% filter(race == "African-American")
+compas.valid.w <- compas.valid %>% filter(race == "Caucasian")
+thr <- .5
+
+demo.perf.dat.train <- data.frame(FP =  c(get.FPR.fit(thr, compas.train, fit),
+                                          get.FPR.fit(thr, compas.train.w, fit),
+                                          get.FPR.fit(thr, compas.train.b, fit)),
+                                  FN =  c(get.FNR.fit(thr, compas.train, fit),
+                                          get.FNR.fit(thr, compas.train.w, fit),
+                                          get.FNR.fit(thr, compas.train.b, fit)),
+                                  CCR =  c(get.CCR.fit(thr, compas.train, fit),
+                                          get.CCR.fit(thr, compas.train.w, fit),
+                                          get.CCR.fit(thr, compas.train.b, fit)))
+
+demo.perf.dat.train
+
+
+demo.perf.dat.valid <- data.frame(FP =  c(get.FPR.fit(thr, compas.valid, fit),
+                                          get.FPR.fit(thr, compas.valid.w, fit),
+                                          get.FPR.fit(thr, compas.valid.b, fit)),
+                                  FN =  c(get.FNR.fit(thr, compas.valid, fit),  
+                                          get.FNR.fit(thr, compas.valid.w, fit),
+                                          get.FNR.fit(thr, compas.valid.b, fit)),
+                                  CCR =  c(get.CCR.fit(thr, compas.valid, fit),
+                                          get.CCR.fit(thr, compas.valid.w, fit),
+                                          get.CCR.fit(thr, compas.valid.b, fit)))
+
+demo.perf.dat.valid
+```
+
+
+It appears that there is basically no overfitting.
+
+
+Let's create the two hypothetical people and predict the probability of re-arrest for both:
+```{r}
+dat = data.frame(age = c(30, 30), priors_count = c(2, 3))
+predict(fit, newdata = dat, type = "response")
+```
+
+We observe an increase of about 3% in the probability.
+
+
+
+### Part 5: Adjusting thresholds
+
+We basically want to find the thresholds for which the false positive rates are at parity. Let's see what the rates are for different thresholds.
+
+```{r}
+thr <- c(0.3, 0.4, 0.51, 0.52, 0.53, 0.54, 0.55, 0.553, 0.555, 0.558, 0.56, 0.57, 0.58, 0.59, 0.7, 0.8)
+fp.rates <- data.frame(thr = thr, 
+                       FP.b  = sapply(thr, get.FPR.fit, compas.train.b, fit),
+                       FP.w = sapply(thr, get.FPR.fit, compas.train.w, fit))
+
+fp.rates
+```
+
+We need to tweak the threshold for black defendants just a little:
+
+```{r}
+
+plot.FPR <- function(fp.rates){
+  colnames(fp.rates) <- c("thr", "African-American", "Caucasian")
+  df.melted <- melt(fp.rates, "thr")
+  colnames(df.melted) <- c("thr", "demographic", "FPR")
+  ggplot(df.melted) + 
+    geom_smooth(mapping=aes(x = thr, y = FPR, color = demographic), method = "loess", se = F) + 
+    geom_vline(xintercept = 0.5, linetype = "dashed") + 
+    geom_vline(xintercept = 0.553, linetype = "dashed") + 
+    geom_hline(yintercept = 0.211, linetype = "dashed") + 
+    ggtitle('FPR across thresholds')
+}
+
+plot.FPR(fp.rates)
+```
+
+`thr = 0.553` seems about right.
+
+Now the white and black demographic would be at parity. We'll compute the correct classification rate on the validation set.
+
+```{r}
+n.correct <- sum(compas.train.b$is_recid == (predict(fit, newdata = compas.train.b, type = "response") > 0.553)) + 
+             sum(compas.train.w$is_recid == (predict(fit, newdata = compas.train.w, type = "response") > 0.5))     
+n.total <- nrow(compas.train.b) + nrow(compas.train.w)
+
+n.correct/n.total
+```
+
+(Note that we ignored everyone who wasn't white or black. That's OK to do, but including other demographics (in any way you like) is OK too).

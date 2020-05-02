@@ -1,240 +1,234 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<title>Michael Guerzhoy :: Homepage</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link rel="stylesheet" href="images/PixelGreen.css" type="text/css" />
+<style>
+body {
+  font-family: "Roboto";
+  img {
+    padding: 40px;
+  }
+}
+</style>
 
-
-<link rel="apple-touch-icon" href="https://www.princeton.edu/themes/custom/tony/icons/apple-touch-icon.png" />
-<link rel="icon" type="image/png" href="https://www.princeton.edu/themes/custom/tony/icons/favicon-16x16.png" />
-<link rel="icon" type="image/png" href="https://www.princeton.edu/themes/custom/tony/icons/favicon-32x32.png" />
-
-
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Auditing the COMPAS Recidivism Risk Assessment Tool: Predictive Modeling and Fairness in Machine Learning in CS1</title>
 </head>
-
-
 <body>
-<div id="wrap">
-  <div id="header">
-    <div id="header-content">
-      <h1 id="logo">Michael <span class="gray">Guerzhoy</span></h1>
-      <h2 id="slogan">Center for Statistics and Machine Learning, Princeton University</h2>
-      <ul>
-        <li><a href="" id="current">Home</a></li>
-        <li><a href="./teaching.html">Teaching</a></li>
-        <li><a href="./research.html">Research</a></li>
+
+
+<h1>Auditing the COMPAS Recidivism Risk Assessment Tool: Predictive Modeling and Fairness in Machine Learning in CS1</h1>
+
+<h2>Overview</h2>
+<img src = "learningmachine_cool3.png" align = "right" height = "310px">
+<p>Applications of machine learning, and predictive modeling in particular, are now everywhere: machine learning models diagnose our illnesses; decide whether to extend credit to us; and decide whether to grant us bail. Consideration of algorithmic fairness are coming to the forefront. It is important that the predictive learning models that have an impact on so many people's lives aren't biased with respect to protected characteristics such as race or sex.
+
+<p>In the criminal justice system in the U.S., risk assessment tools (RATs) are increasingly being used to assess a criminal defendant’s probability of re-offending. RATs use information such as the number of priors as well as questionnaire data from defendants.  In 2016, the non-profit journalism organization ProPublica analyzed COMPAS, a RAT made by Northpointe, Inc., to assess whether it was biased against African-American defendants. ProPublica <a href = "https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">found that COMPAS incorrectly labeled innocent African-American defendants as likely to reoffend twice as often as innocent white defendants</a>. In technical terms, this means the false positive parity measure of algorithmic fairness was not satisfied by the COMPAS system.
+
+<p>In a follow-up to ProPublica's investigation, Julia Dressel and Hany Farid <a href = "https://advances.sciencemag.org/content/4/1/eaao5580.full">showed in an article in Science Advances</a> (2018) that a score almost equivalent to the COMPAS score can be obtained by using only the defendant's sex, age, and their number of priors. Researchers in the algorithmic fairness community pointed out that the different observational measures of algorithmic fairness <a href = "https://arxiv.org/pdf/1703.00056.pdf">cannot in general all be simultaneously satisfied</a>.
+
+<p>We present an assignment suitable for Introduction to Data Science and Introduction to Programming courses where students replicate the findings from ProPublica and <i>Science Advances</i>, and investigate a way to adjust the models they build to make it so that innocent African-American defendants are not mislabeled at a higher rate than innocent white defendants (with only a marginal impact on accuracy). We successfully used the assignment in a class that has no programming or statistics prerequisites.
+
+<p>We have two goals in mind: to reinforce students' understanding of predictive modeling and to teach them important CS1 concepts. It turns out that computing various measures of fairness for a predictive model and adjusting a model's thresholds to achieve a specified criterion of fairness involves programming tasks that are just at the right level of difficulty for mid-to-late CS1.   
+
+<p>Predictive modeling is usually not taught in introductory courses. In part, this is because it is traditionally taught in courses that require knowledge of calculus. Another reason is the complexity of working with machine learning libraries, most of which require extensive computing experience.
+
+<p>We believe that predictive modeling and algorithmic fairness can be made accessible to all students. We teach predictive modeling with logistic regression early by treating logistic regression as a black box. For students who are learning Python and Java, we address the complexity of the commonly-used machine learning libraries by creating a small number of wrapper functions that the students can use as black boxes. We supply drafts of tutorials covering the usage of those black boxes.
+
+
+<h2>Meta Information</h2>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Summary</td>
+      <td style="vertical-align: top;"><p>
+Students apply predictive modeling to build a model that predicts re-arrest of criminal defendants using real data. Students assess the algorithmic fairness of a real-world criminal risk assessment tool (RAT), and reproduce results from an impactful story in ProPublica and a 2018 <i>Science Advances</i> paper. Students explore different measures of algorithmic fairness, and adjust a model they build to satisfy the false positive parity measure.
+      </p></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Topics</td>
+      <td style="vertical-align: top;">
+      <ul> 
+	<li>Predictive modeling; performance measures in predictive modeling; algorithmic fairness and measures of algorithmic fairness; lineplots and histograms
+	<li>In R: repeated computation with <yy>sapply</tt>; boolean operations on vectors
+	<li>In Python/Java: lists/array and loops; nested arrays/lists
+	<li>In Java: working with existing classes
       </ul>
-    </div>
-  </div>
-  <!--<div class="headerphoto"></div> -->
-  <div id="content-wrap">
-    <div id="content">
-      <div id="sidebar">
-        <div class="sidebox">
- 	  <img src = "images/mike2018.jpg" height = "150px" alt = "Photo of Michael Guerzhoy"/>
-	  <p/><tt>Office: CSML 202<br/>
-Princeton University<br/>
-26 Prospect Ave.<br/> 
-Princeton, NJ 08544<br/>
-Phone (office): +1 609 258 8475<br/>
-Email: guerzhoy at princeton.edu</tt><br/>
-<p><a href = "https://calendar.google.com/calendar?cid=Z3VlcnpoQGdtYWlsLmNvbQ">Appointment calendar</a> &mdash; to set up a meeting, please consult my public calendar (Google log-in required) and send an email with proposed times.
-	  </p>
-        </div>
-        <div class="sidebox">
-          <h1 class="clear">Menu</h1>
-          <ul class="sidemenu">
-            <li><a href="" class="top">Home</a></li>
-            <li><a href="#About">About</a></li>
-            <li><a href="#Teaching">Teaching</a></li>
-            <li><a href="#Undergrads">Student projects</a></li>          
-            <li><a href="#Grad">Grad students</a></li>          
-            <li><a href="#Assignments">My assignments</a></li>          
-            <li><a href="#Conferences">Conferences</a></li>          
-            <li><a href="#Media">Media</a></li>          
-            <li><a href="#Misc">Miscellania</a></li>          
-            <li><a href="#Justforfun">Just for fun</a></li>          
-	  </ul>
-        </div>
- 
+     </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Audience</td>
+      <td style="vertical-align: top;"><p>
+	Introduction to Data Science or late CS1/early CS2
+      </p></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Difficulty</td>
+      <td style="vertical-align: top;">
+<p>Moderate difficulty for an R-based Introduction to Data Science class with no programming prerequisites.
 
+<p>Likely more difficult than average for late CS1 in Python and Java.
+</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Strengths</td>
+      <td style="vertical-align: top;">
+<ul>
+<li>We present an assignment on predictive modeling that is accessible to students very early in their computing careers, using real data.
 
-      
-      </div>
-      <div id="main">
-        <div class="post"> <a name="Affiliations"></a>
+<li>Computing various measures of algorithmic fairness and adjusting the thresholds of predictive models turns out to involve good CS1-level exercises.
 
+<li>Students learn about algorithmic fairness. 
 
-	<p><b>Lecturer, <a href = "https://csml.princeton.edu">Center for Statistics and Machine Learning</a>, Princeton University</b></p>
+<li>Students see and understand code for adjusting predictive models to satisfy false positive parity, a measure of algorithmic fairness.
 
-        <p><b>Assistant Professor (status only), <a href = "http://www.utstat.toronto.edu">Dept. of Statistical Sciences, University of Toronto</a></b></p>
-			
-  <p><b>Affiliate Scientist, <a href = "http://www.stmichaelshospital.com/knowledgeinstitute/">Li Ka Shing Knowledge Institute</a>, <a href = "http://www.stmichaelshospital.com/">St. Michael's Hospital</a>, collaborating with <a href = "https://www.chartdatascience.ca/">LKS-CHART</a></b></p>
+<li>Students enjoy learning about a live issue. Students find it important to learn about the ethical implications of data science. Student feedback indicated students liked working with criminal justice data.
 
-
-	</div>
-        <div class="post"> <a name="About"></a>
-	
-	 <h2>About</h2>
-	 <p>I work in machine learning focusing on ML applications to patient chart data, computer vision, and applied statistics and take on data science consulting projects. I teach at the Center for Statistics and Machine Learning at Princeton University, and collaborate with the Li Ka Shing Centre for Healthcare Research, Analytics, and Training at St. Michael's Hospital in Toronto.</p>
-
-	 <p>My <a href = "lastname/">last name</a> is pronounced <em>ger</em>-JOY, with a hard "g", and with the "J" pronounced like the "s" in "measure."</p>
-
-	</div>
-
-
-        <div class="post"> <a name="Teaching"></a>
-	
-	 <h2>Teaching</h2>
-	 <p/><b>Currently teaching</b>: 
-				<ul>
-					<li><a href = "http://guerzhoy.princeton.edu/201s20/">SML201</a> &mdash; Introduction to Data Science, Spring 2020</li>
-					<li><a href = "http://guerzhoy.princeton.edu/480s20/">SML480</a> &mdash; Pedagogy of Data Science (<font color = "red">NEW!</font>), Spring 2020 </li>
-				</ul>		
-				
-	 <p/><b>Recently taught</b>: 
-		<ul>
-				<li><a href = "http://guerzhoy.princeton.edu/310f19/">SML310</a> &mdash; Research Projects in Data Science, Fall 2019, Fall 2018</li>				
-				<li><a href = "http://guerzhoy.princeton.edu/201s19/">SML201</a> &mdash; Introduction to Data Science, Spring 2019</li> 
-
-				<li><a href = "http://www.teach.cs.toronto.edu/~csc411h/winter/">CSC411/CSC2515</a> &mdash; Machine Learning and Data Mining, Winter 2018 (<a href = "http://www.cs.toronto.edu/~guerzhoy/411_2018/">local cached copy</a>)</li>
-				<li><a href = "http://www.cs.toronto.edu/~guerzhoy/411/">CSC411</a> &mdash; Machine Learning and Data Mining, Winter 2017</li>
-				<li><a href = "http://www.cs.toronto.edu/~guerzhoy/180/">CSC180</a> &mdash; Introduction to Computer Programming, Fall 2014/2015/2016</li>
-                                <li><a href = "http://www.utstat.toronto.edu/~guerzhoy/303/">STA303/STA1002</a> &mdash; Methods of Data Analysis II, Summer 2016</li>
-                                <li><a href = "http://www.cs.toronto.edu/~guerzhoy/c4m_website_archive/">C4M</a> &mdash; Computing for Medicine, Winter-Summer 2016</li>
-                                <li><a href = "http://www.cs.toronto.edu/~guerzhoy/321/">CSC321</a> &mdash; Introduction to Neural Networks and Machine Learning, Winter 2016 (won the <a href = "http://cssu.ca/awards/"><b><i>CSSU award for excellence in teaching</i></b></a>)</li>
-                                <li><a href = "http://www.cs.toronto.edu/~guerzhoy/320/">CSC320</a> &mdash; Introduction to Visual Computing, Winter 2015</li>
-                                <li><a href = "http://www.cs.toronto.edu/~guerzhoy/165/">CSC165</a> &mdash; Mathematical Expression and Reasoning for Computer Science, Summer 2014</li>
-	</ul>
-	
-	</div>
-
-		
-        <div class="post"> <a name="Undergrads"></a>
-	 <h2>Student projects</h2>
-	  <p/> 
-		<ul> 		
-			<li><b>Ramaneek Gill</b>, Twitter Hashtag Recommendation and Analysis (UofT CSC494/495, 2015-2016)</li>
-			<li><b>Karo Castro-Wunsch</b>, RNN and Spectral Feature Based Music Analysis and Generation  (UofT CSC492, 2016)</li>
-			<li><b>Ujash Joshi</b>, Photo Orientation Detection with ConvNets (UofT CSC494/CSC495, 2016)</li> 
-			<li><b>Omobola Okesanjo</b>,Demonstration in Reinforcement Learning (UofT CSC494, Fall 2016)</li>
-			<li><b>Joshua Samson-Seltzer</b>, Computer Vision for Camera Trap Data (UofT GGR417, 2016-2017)</li>
-			<li><b>Sam Banning</b>, Information Extraction from Clinical Notes (UofT CSC494, Fall 2017)</li>
-			<li><b>Yoonsun You</b>, Classification of Cervical Spine Fractures in CT Images (UofT EngSci thesis, 2018-2019)</li>
-			<li><b>Navid Korhani</b>, Information Extraction with Small Datasets (UofT EngSci thesis, 2018-2019)</li>
-                        <li><b>Ananya Joshi</b>, Creating an Automated Ideological Transformer Using Moral Reframing (Princeton undergrad thesis, 2019)</li>
-			<li><b>Georgy Noarov</b>, Collecting a Large-Scale Dataset of Fake News (Princeton CSML certificate project 2019-2020)</li> 			
-			<li><b>Preeti Iyer</b>, Understanding Urban Mobility in NYC with Latent Factor Models (Princeton undergrad thesis, 2020)</li>
-			<li><b>Max Piasevoli</b>, Generative Adversarial Networks for Model Checking (Princeton COS498, 2020)</li>
-			<li><b>Niranjan Shankar</b>, Text Classification for Small Datasets (Princeton COS498, 2020)</li>
-			<li><b>Daniel K. Chae</b>, Generating Novel Hypotheses from Complex Models of Clinical Data (Princeton COS498, 2020)</li>
-			<li><b>Claire S. Lee</b>, Classifying and Understanding Affective States in Bipolar Disorder from Video (Princeton COS498, 2020)</li>
-			<li><b>Ryan Lee</b>, Investigating the Double Descent Curve (Princeton Math junior paper, 2020)</li>
-		</ul>
-	</div>
-
-		
-	<div class="post"> <a name="Grad"></a>
-	 <h2>Grad students</h2>
-	  <p/><a href = "http://www.cs.toronto.edu/~vando">Thi Hai Van Do</a> (MSc in Applied Computing, University of Toronto 2018). Merchandise Classification with Machine Learning for E-commerce.
-			                                 
-	</div>
-
-	<div class="post"> <a name="Assignments"></a>
-	 <h2>My assignments around the web</h2>
-		<p/>I enjoy creating and sharing my assignments. I sometimes enjoy Googling my name to see who uses them.
-		<ul>
-<li><a href= "http://nifty.stanford.edu/2017/guerzhoy-SAT-synonyms/">Automatically Solving SAT/TOEFL Synonym Questions with Computational Linguistics</a>, presented at <a href = "http://nifty.stanford.edu/">Nifty Assignments</a> at <a href = "https://sigcse2017.sigcse.org/"><b>SIGCSE 2017</b></a>. Used in CPSC231 at the University of Calgary (2017) and in <a href = "http://homepage.cs.uiowa.edu/~bdmyers/cs2230_fa17/public/lectures/lecture-033-hashing.pdf">CS2230</a> at the University of Iowa (2017). Originally designed for CSC180 (2010-2016), with <a href = "http://cs.mcgill.ca/~jcheung/">Jackie C.K. Cheung</a> and <a href = "http://www.cs.toronto.edu/~fpitt">Fran&ccedil;ois Pitt</a>.</li>
-
-<li><a href = "http://modelai.gettysburg.edu/2018/rnntext/index.html">Understanding How Recurrent Neural Networks Model Text</a>, presented at <a href = "http://modelai.gettysburg.edu/">Model AI Assignments</a> at <a href = "https://aaai.org/Conferences/AAAI-18/eaai-18/"><b>EAAI 2018</b></a>. Used in <a href = "http://www.cs.toronto.edu/~rgrosse/courses/csc321_2017/assignments/a3-handout.pdf">CSC321 at the University of Toronto</a> (2017) and at Hacettepe University in <a href = "https://web.cs.hacettepe.edu.tr/~aykut/classes/spring2017/cmp722/practical3.pdf">CMP722</a> (2017) and <a href = "https://web.cs.hacettepe.edu.tr/~aykut/classes/spring2018/cmp784/practical3.pdf">CMP784</a> (2018). Originally designed for CSC321 (2016), with <a href = "http://www.cs.toronto.edu/~rjliao/">Renjie Liao</a>.</li>
-
-<li><a href = "http://modelai.gettysburg.edu/2018/nnfaces/index.html">Neural Networks for Face Classification with TensorFlow</a>, presented at <a href = "http://modelai.gettysburg.edu/">Model AI Assignments</a> at <a href = "https://aaai.org/Conferences/AAAI-18/eaai-18/"><b>EAAI 2018</b></a>. Used in part at <a href = "https://github.com/udacity/CarND-Alexnet-Feature-Extraction">Udacity</a> as part of the Self-Driving Car Engineer Nanodegree (2016-). Some materials used in <a href = "https://github.com/ofirbarak/HUJI/blob/master/Intro2NeuralNetworks/ex2%20-%20Visualizing%20And%20Fooling%20CNNs/ex2.pdf">67103</a> at the Hebrew University of Jersualem (2017) and in <a href = "http://users.math.yale.edu/users/gw289/CpSc-663_2018/Exercises/Exercise3.pdf">AMTH/CPSC 663b</a> at Yale University (2018). Used at Hacettepe University in <a href = "https://web.cs.hacettepe.edu.tr/~aykut/classes/fall2017/bbm406/assg3.pdf">BBM406</a>, <a href = "https://web.cs.hacettepe.edu.tr/~aykut/classes/spring2017/cmp722/practical2.pdf">CMP722</a>, and <a href = "https://web.cs.hacettepe.edu.tr/~aykut/classes/spring2018/cmp784/practical2.pdf">CMP784</a> (2017-2018). Used at the University of Toronto in ECE521 (2018). Used by the <a href = "https://software.intel.com/en-us/ai-academy/students/kits/tensor-flow-501">Intel AI Academy</a> (Week 6). Partially used in <a href = "https://id2223kth.github.io/slides/lab2.zip">id2223</a> at KTH (2018). Originally designed for CSC321 and CSC411 (2016-2017).</li>
-
-<li><a href = "http://nifty.stanford.edu/2018/guerzhoy-pong-ai-tournament/">AI Engines for Pong</a>, presented at <a href = "http://nifty.stanford.edu">Nifty Assignments</a> at <a href = "https://sigcse2018.sigcse.org/"><b>SIGCSE 2018</b></a> and posted on NCWIT's <a href = "https://www.engage-csedu.org/find-resources/tournament-pong-ai-engines">EngageCSEdu</a>.  Used in part in the <a href = "http://www.dbs.ifi.lmu.de/Lehre/DLAI/WS18-19/Tutorial/14/ex14.pdf">Deep Learning and Artificial Intelligence</a> program at LMU Munich (2019). Originally designed for CSC180 and for contests at the University of Toronto (2014-2016).</li>
-
-<li><a href = "http://modelai.gettysburg.edu/2019/fakenews/">Building a Fake News Detector</a>, presented at <a href = "http://modelai.gettysburg.edu/">Model AI Assignments</a> at <a href = "https://aaai.org/Conferences/AAAI-19/eaai-19/"><b>EAAI 2019</b></a>. Used in part in <a href = "https://www.cs.toronto.edu/~rgrosse/courses/csc411_f18/homeworks/hw1/hw1.pdf">CSC411/2515</a> at the University of Toronto (Fall 2018). Originally designed for CSC411/2515 (Winter 2018), with <a href = "http://lisazhang.ca/">Lisa Zhang</a>.</li>
-
-
-<li><a href = "http://guerzhoy.princeton.edu/ICURiskPredict/">Predicting and Preventing Deaths in the ICU: Designing and Analyzing an AI System</a>, to be presented at <a href = "http://modelai.gettysburg.edu/">Model AI Assignments</a> at <a href = "https://aaai.org/Conferences/AAAI-20/eaai-20/"><b>EAAI 2020</b></a>. Originally designed form SML 201 (Spring 2019), with <a href = "https://pni.princeton.edu/directory/stephen-keeley">Stephen Keeley</a>
-
-
+<li>In Python and Java, we provide a simplified "Learning Machine" API that should be accessible to beginners. Students need only to understand lists of lists/2D arrays, a few simple function calls, and our train/predict framework in order to work on the assignment. Students can use our API with their own datasets.
+<li>Drafts of tutorials on predictive modeling that can be adapted for use in CS1 are provided.
 </ul>
-                
-	</div>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Weaknesses</td>
+      <td style="vertical-align: top;"><ul>
+<li>While R has a built-in dataframe data type and a straightforward framework for training/predicting using linear models, Python and Java do not. We provide a simplified API for Python and Java, but some might argue it is overly simplistic. Students who want to work in Python will need to learn to use libraries like scikit-learn and Pandas later in their careers. Using our table data type in Java can be awkward.
 
-	<div class="post"> <a name="Conferences"></a>
-	 <h2>Conferences</h2>
-		<p/> I am co-chair of the <a href = "http://eaai.cs.mtu.edu/">Symposium on Educational Advances in Artificial Intelligence</a> (EAAI) for 2021 (collocated with AAAI in Vancouver in Feb. 2021) and 2022 (TBD).
-		<p/> I am on the Program Committee of the <a href = "https://torontomachinelearning.com/">Toronto Machine Learning Summit</a> (2017-), the <a href = "https://www.caiac.ca/en/conferences/canadianai-2019/home">Canadian Conference on Artificial Intelligence</a> (2018-) and the <a href = "http://pages.mtu.edu/~lebrown/eaai/">Symposium on Educational Advances in Artificial Intelligence</a> (<a href = "http://modelai.gettysburg.edu/#call">Model AI Assignments</a> track and Diversity and Inclusion in AI Education track 2020-). Submit your stuff!
-			                                 
-	</div>
+<li>For CS1: we tried to minimize the amount of class time CS1 instructors would need to devote to the assignment if they choose to adopt it. However, a non-negligible amount of time in class would still need to be spent on introducing predictive modeling and measures of algorithmic fairness. Instructors will likely want to introduce exercises that would lead in to the assignment and have students use the API.
+      </ul></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Variants</td>
+      <td style="vertical-align: top;">
+<ul>
+<li>We provide the assignment in R, as well as translations to Python and Java.
+<li>Versions in Python and Java that use standard machine learning and dataframe libraries are possible, but would be more appropriate for more advanced students.
+<li>Other datasets could be used in place of the COMPAS dataset. (Although we like to use the COMPAS because of its impact and importance &mdash; rarely would students in introductory courses get to work with a dataset that was subject to public discussion and scientific research so recently.)
+</ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Intro to Classifier Performance Measures and Observational Algorithmic Fairness Measures</h2>
+<p>Knowledge of the algorithmic fairness literature is not required to complete this assignment. We give a quick summary of what the students need to know. Links to further resources are provided.
+
+<h3>Measures of Classifier Performance</h3>
+<p>We are considering a dataset where the output of interest is <tt>"positive"</tt>/<tt>"yes"</tt> (1) or <tt>"negative"</tt>/<tt>"no"</tt> (0). The outputs of our classifier are stored in the vector <tt>pred</tt>, and the correct outputs (i.e., the ground truth) are stored in the vector </tt>y</tt>. We can compute the following measures.
+
+<ul>
+<li><b>Correct Classification Rate</b> (CCR): for what proportion of the inputs does the correct output <tt>y[i]</tt> match the classifier output <tt>pred[i]</tt>? This can be computed in R using <tt>mean(y == pred)</tt>.
+
+<li><b>False Positive Rate</b> (FPR): for what proportion of the inputs for which the correct output <tt>y[i]</tt> is negative is the classifier output <tt>pred[i]</tt> positive? This can be computed in R using <tt>sum((pred == 1) & (y == 0))/sum(y == 0)</tt>.
+
+<li><b>False Negative Rate</b> (FNR): for what proportion of the inputs for which the correct output <tt>y[i]</tt> is positive is the classifier output <tt>pred[i]</tt> negative? This can be computed in R using <tt>sum((pred == 0) & (y == 1))/sum(y == 1)</tt>.
+</ul>
+<h3>A Few Observational Measures of Algorithmic Fairness</h3>
+<p>Algorithmic fairness can be assessed with respect to an input characteristic. Typically algorithmic fairness would be assessed with respect to characteristics such as race or sex. 
+
+<ul>
+<li><b>False positive parity</b> with respect to characteristic C is satisfied if the false positive rate for inputs with C = 0 is the same as the false positive rate for inputs with C = 1. ProPublica found that false positive parity was not satisfied by classifiers based on the COMPAS score with respect to race. The false positive rate for African-American defendants (i.e., the percentage of innocent African-American defendants classified as likely to re-offend) was higher than for white defendants.
 
 
-	<div class="post"> <a name="Media"></a>
-	 <h2>Recent media mentions</h2>
-	  <p/>Quoted in <i>MIT Technology Review</i> (Jun. 2017) on <a href = "https://www.technologyreview.com/s/608094/google-stakes-its-future-on-a-piece-of-software/">teaching machine learning with TensorFlow and on the TensorFlow ecosystem</a>; the story also appeared in <i><a href = "http://www.businessinsider.com/googles-plan-to-best-amazon-rests-on-one-particular-piece-of-software-2017-7">Business Insider</a></i> (Jul. 2017); quoted in <i>The Varsity</i> (Feb. 2017) on <a href = "http://thevarsity.ca/2017/02/06/curing-disease-with-scientific-literature/">AI for literature search and on careers in machine learning and data science</a>; quoted in <i>The Cannon</i> on <a href = "https://issuu.com/thecannon/docs/the_cannon-november_-_final_92230cceb52141">"curving" and grading policies</a>; <a href = "https://www.utoronto.ca/news/bridging-disciplinary-divide">Computing for Medicine</a> profiled in <i>UofT News</i> (Mar. 2016). 
-	</div>
+<li><b>False negative parity</b> with respect to characteristic C is satisfied if the false negative rate for inputs with C = 0 is the same as the false negative rate for inputs with C = 1. For example, if “positive” means the person is deemed creditworthy, disparate false negative rates imply different levels of access to credit for people who would not actually default.
 
+<li><b>Accuracy parity</b> with respect to characteristic C is satisfied if accuracy for inputs with C = 0 is the same as the accuracy for inputs with C = 1. 
+</ul>
+
+<p>It is fairly easy to show that in general, only one measure at a time can be satisfied for any particular classifier. We refer interested readers to the resources below for details.
+
+
+
+
+
+
+<h2>Introduction to Data Science and Programming in R</h2>
+We used the assignment presented here (in R) in an Introduction to Data Science class that has no computing prerequisites. Any practitioner of data science needs to be able to program, and this assignment was designed to help students learn to program. In particular, we reinforce the use of <tt>dplyr</tt>  for processing dataframes and of <tt>sapply</tt> for repeated computation that is not naturally done on dataframes.
+
+Because we emphasize programming for beginners, we teach a restricted set of R. Experienced R users might find our style not as concise as it could have been. 
+
+
+<h2>The Learning Machine API</h2>
+<p>For the Python and Java versions of the assignment, we encapsulate logistic regression in a <tt>learningmachine</tt> module/<tt>LearningMachine</tt> class. The idea is to let CS1 students concentrate on programming and to quickly grasp the idea of a black box that takes in a training set and spits out a model that can make predictions for new data. We hope that avoiding the need to spend several lectures on properly teaching subsets of <tt>scikit-learn</tt> or <tt>Weka</tt> will enable CS1 instructors to teach predictive modeling in their course.
+
+<h2>Python and Data Science Programming</h2>
+Python is the most commonly-used language in data science. However, we find that the most commonly used libraries -- <tt>scikit-learn</tt> and <tt>Pandas</tt> &mdash; are not beginner friendly. CS1 courses would struggle to explain the details of those libraries to students. For that reason, we provide a simplified API students can use. Some instructors will choose to use NumPy, making the code for this assignment more concise. We chose to avoid <tt>NumPy</tt> as well to reduce the amount of dependencies.
+
+We find that for many of the tasks required for this assignment, Python (without NumPy) would be more wordy and less natural. As a simple illustration, in R, we would compute the false negative rate for binary classifier outputs <tt>pred</tt> and expected outputs <tt>y</tt> as
+
+<pre>sum((pred == 0) & (y == 1))/sum(y == 1)</pre>
+
+Python without <tt>NumPy</tt> is much wordier. Nevertheless, we think that the tasks in this assignment are representative of good Python exercises for nested lists and loops.
+
+
+<h2>Java and Data Science Programming</h2>
+
+
+<p>Java (without additional libraries) is not considered to be as well-suited for data science programming as R or Python. Operating on Java arrays is more awkward than operating on Python lists or R vectors. Fixed array lengths, and the lack of vectorization make life more difficult (but of course have their advantages). Data science programming naturally lends itself to writing scripts that run in notebooks (we use Jupyter Notebook for Python and R Markdown for R); such a style is basically impossible in Java: students instead write a program that outputs all the numbers they need.
+
+<p>The challenges encountered when doing this assignment in Java are in many ways similar to the challenges encountered when doing scientific computing in Java in CS1. The goal of reinforcing basic programming skills while learning data science would still be achieved.
+
+<p>Our API is meant to address some of those difficulties. Nevertheless, the assignment is more difficult to do in Java than in R or Python.
+
+
+
+
+<h2>Recommended Resources</h2>
+<ul>
+<li>Arvind Narayanan, <a href = "https://www.youtube.com/watch?v=jIXIuYdnyyk">21 Fairness Definitions and Their Politics</a> (video tutorial)
+<li>Julia Angwin, Jeff Larson, Surya Mattu and Lauren Kirchner, <a href = "https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">Machine Bias
+</a> (the ProPublica investigation)
+<li>Julia Dressel and Hany Farid, <a href = "https://advances.sciencemag.org/content/4/1/eaao5580.full">The Accuracy, Fairness, and Limits of Predicting Recidivism</a> (a very accessible and important article in <i>Science Advances</i>, 2018)
+<li>Sam Corbett-Davies, Emma Pierson, Avi Feller and Sharad Goel, <a href = "https://www.washingtonpost.com/news/monkey-cage/wp/2016/10/17/can-an-algorithm-be-racist-our-analysis-is-more-cautious-than-propublicas/">Can an Algorithm be Racist</a> (a post on the <i>Washington Post</i> website explaining the issues that arise with using false positive parity as a measure of algorithmic fairness)
+</ul>
+
+<h2>Discussing Algorithmic Fairness in Class</h2>
+<p>Our goal is to make students aware of some of the issues around algorithmic fairness. Algorithmic fairness goes beyond the simple observational measures that the students compute in this assignment, and whole courses can be devoted to it. It is important that students understand that algorithmic fairness is not a mere matter of not using sensitive characteristics such as sex or race as inputs to predictive models, nor is it just a matter of measuring disparities in false positive and false negatives. 
+
+<p>In the assignment, we ask the students to adjust the models in order to achieve false positive parity. This demonstrates one way to address some of the issues that arise. However, the assignment should serve as a starting point for a discussion.
+
+
+<h2>Assignment Handout</h2>
+<p><a href = "handout/index.html">Assignment handout</a> (<a href = "handout/index.Rmd">Markdown source</a>)
+
+
+
+<h2>Draft Solutions</h2>
+<p><i>Solutions will be made available to instructors who use the assignment</i>.
+
+<p><b>Solutions in R</b>: <a href = "r_soln/index.html">HTML report</a>, <a href = "r_soln/index.Rmd">Rmd source</a>
+
+<p><b>Solutions in Python</b> (translation): <a href = "py_soln/COMPAS_PythonSolutions.html">HTML report</a>, <a href = "py_soln/COMPAS_PythonSolutions.ipynb">Jupyter Notebook source</a>
+<ul>
+	<li>Please consult the tutorial notes below.
+</ul>
+
+
+<p><b>Solutions in Java</b> (translation): <a href = "java_soln/Solution.java">Solution.java</a>, <a href = "java_soln/LearningMachineSolution.java">LearningMachineSolution.java</a> (<a href = "java_packages.zip">required jar files</a>)
+<ul>
+	<li>Please consult the tutorial notes below, and download the accompanying classes.
+</ul>
+
+<h2>Draft Tutorials</h2>
+<p><i>Tutorials will be made available publicly</i>.
+
+<h3>Python tutorial</h3>
+<ul>
+	<li><a href = "py_tutorial/PredictiveModelingTutorial.html">Python tutorial</a> (HTML)
+	<li><a href = "py_tutorial/PredictiveModelingTutorial.ipynb">ipynb source</a>
+	<li><a href = "py_tutorial/learningmachine.py"><tt>learningmachine</tt> module</a>
+	<li><a href = "py_tutorial/ICU_data.csv">ICU data</a>
+	<li><a href = "py_tutorial/LearningMachine.png">LearningMachine.png</a>, <a href = "py_tutorial/Train_Valid_Test.png">Train_Valid_Test.png</a>, <a href = "py_tutorial/Predict.png">Predict.png</a>
+</ul>
+
+<h3>Java tutorial and packages</h3>
+<ul>
+	<li><a href = "java_files/java_tutorial/ICU Tutorial Java.pdf">PDF tutorial</a> (<a href = "java_files/java_tutorial/java_tutorial.zip">source</a>)
+	<li><a href = "java_files/LearningMachine.java">LearningMachine.java</a>
+	<li><a href = "java_files/Data.java">Data.java</a>
+	<li><a href = "java_files/Plot.java">Plot.java</a>
+	<li><a href = "java_files/packages.zip">required jar files</a>
 	
-	<div class="post"> <a name="Misc"></a>
-	 <h2>Miscellania</h2>
-		<p>Come to the <a href = "https://csml.princeton.edu/readinggroup">CSML Reading Group</a></p>
-	  	<p><a href = "http://www.cs.toronto.edu/~guerzhoy/tf_alexnet">AlexNet implementation+weights in TensorFlow</a></p>
-		<p><a href = "http://datasciencetoronto.com/uoft-data-science-team/">The UofT Data Science Team</a></p>
-		<p><a href = "http://www.cs.toronto.edu/~guerzhoy/pong2016/">Tournament for Pong AIs, 2016</a> (the <a href = "http://www.cs.toronto.edu/~guerzhoy/pong2015">2015 tournament</a>).</p>
-		<p><a href = "http://www.cs.toronto.edu/~guerzhoy/reference.html">Advice to students about asking for reference letters</a></p>
-		<p>The <a href = "http://guerzhoy.princeton.edu/courses_online/Main_Page">Course Webpage Wiki</a> &mdash; please contribute!</p>
+</ul>
 
 
 
-	</div>
-
-
-
-	<div class="post"> <a name="Justforfun"></a>
-	 <h2>Just for fun</h2>
-	  <p/>Back in grad school, I used to co-ordinate the <a href = "http://www.cs.toronto.edu/~guerzhoy/cookies/">weekly CSGSBS cookie breaks</a>.
-	  <p/><a href = "http://www.cs.toronto.edu/~guerzhoy/bogosort/DerandomizedBogosort.html">Derandomizing Bogosort: A Very Serious Webpage</a>.
-	  <p/><a href = "https://www.youtube.com/watch?v=RBCuXNn8BD8&amp;t=370s">Re: Your Grades</a> at the N&Psi; 2017 Nocturne Talent Show (<a href = "http://www.cs.toronto.edu/~guerzhoy/reyourgrades.txt">lyrics</a>).
-	  <p/><a href = "https://player.vimeo.com/video/254620710">How Deep is Your Love with Gradient Descent</a> (note the lyrics: "How deep is your love? I really need to learn.") <a href = "https://nbviewer.jupyter.org/github/guerzh/deeplearningvalentine/blob/master/deeplearningvalentine.ipynb">Source code</a>.
-
-
-	</div>
-
-	
-
-	
-    </div>
-  </div>
-  <div id="footer">
-    <div id="footer-content">
-      <div class="col float-left">
-        <h3><a href = "http://csml.princeton.edu">Center for Statistics and Machine Learning</a></h3>
-	<p/>Princeton University<br/>
-        26 Prospect Ave.<br/>
-        Princeton, NJ 08544<br/>
-	609-258-9862
-      </div>
-      <div class="col float-left">
-
-
-	<p/><a href = "http://www.princeton.edu"><img src = "images/PU-standard.png" height = "80px" alt = "Princeton University logo"/></a>
-        <p/><a href = "https://accessibility.princeton.edu/">Accessibility</a> 	
-        <p/><a href = "https://www.princeton.edu/search">Princeton University search</a>
-
-
-      </div>
-      <div class="col2 float-right">
-        <p> &copy; Copyright 2019 <strong>The Trustees of Princeton University</strong><br />
-          Design by: <a href="http://www.styleshout.com"><strong>styleshout</strong></a> (download at <a href='http://all-free-download.com/free-website-templates/'>free website templates</a>)&nbsp; &nbsp; Valid <a href="http://jigsaw.w3.org/css-validator/check/referer"><strong>CSS</strong></a> | <a href="http://validator.w3.org/check/referer"><strong>XHTML</strong></a> </p>
-
-      </div>
-    </div>
-  </div>
-
-</div>
-
-</div>
 </body>
 </html>

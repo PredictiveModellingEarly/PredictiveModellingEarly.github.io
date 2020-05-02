@@ -1,0 +1,112 @@
+---
+title: "Auditing the COMPAS Score: Predictive Modeling and Algorithmic Fairness"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### General guidelines
+
+Please submit your source code and a report. Your code should be general enough that if the dataset were changed, the code would still run.
+
+You will be graded on the correctness of your code as well as on the professionalism of the presentation of your report. The text of your report should be clear; the figures should do a good job of visualizing the data, and should have appropriate labels and legends. Overall, the document you produce should be easy to read and understand.
+
+When you are asked to compute something, use code, and include the code that you used in the report.
+
+### Auditing the COMPAS score
+
+ProPublica obtained the public record on over 10,000 criminal defendants in Broward County, Florida. They also computed a variable that indicates whether each person was arrested within two years of being assessed. The data is available [here](https://github.com/propublica/compas-analysis/raw/master/compas-scores-two-years.csv). Download and read in the data. 
+
+The COMPAS scores you will be analyzing are the "decile scores" in the data frame (the column `decile_score`).
+
+#### Part 1: Comparing the scores of black and white defendants (10 pts)
+
+Make two histograms: one with the decile scores for white defendants, and one with the decile scores for black defendants. The histograms should allow the reader to understand how the scores for white defendants and the scores for black defendants differ.
+
+*Grading scheme*
+
+* The figure displays the right data in a good way: 6 pts.
+
+* The figure is easy to read and understand (incl. labels, legend, captions, etc.): 4 pts.
+
+#### Part 2: Initial evaluation the COMPAS scores (15 pts)
+
+Suppose that defendants with scores that are greater than or equal to 5 are considered to be "high-risk," and other defendants are considered to be "low-risk."
+
+Compute the false positive rate, the false negative rate, and the correct classification rate for the entire population, for the population of white defendants separately, and for the population of black defendants separately. State the tentative conclusions that you can draw about the fairness of the COMPAS scores.
+
+To obtain the context for the potential informativeness of the scores, compute the overall recidivism rate in the dataset. Comment on the difference between the overall recidivism rate and the correct classification rate using the score. Use `is_recid` as the variable that indicates whether the person recidivated.
+
+*Grading scheme*
+
+* The numbers are computed in a way that makes sense: 7 pts
+
+* The numbers are displayed and presented in an understandable and easy-to-read way: 3 pts
+
+* The text frames the numbers well, and the answer overall is written up well: 5 pts
+
+#### Part 3: Altering the threshold (15 pts)
+
+For the possible thresholds `[0.5, 1, 1.5, 2, 2.5, 3, ..., 9.5]`, compute the FPR, FNR, and correct classification rate (CCR) for the entire population, for white defendants, and for black defendants. Plot the results. You should produce three plots with three curves each (one plot per demographic group), with the thresholds being on the x-axis. 
+
+*Grading scheme*
+
+* FPR, FNR, and CCR computed correctly: 7 pts
+
+* The graphs display the correct information: 2 pts
+
+* The graphs display the information in a way that's easy to read and understand (includes choice of labels, colors, etc.) : 4 pts
+
+* The text in the answer frames the graphical information well: 2 pts
+
+#### Part 4: Trying to reproduce the score (15 pts)
+
+
+
+##### Data Science version</span>
+<span style="color:green">
+Fit a logistic regression model that predicts the probability of recidivism using the age and the number of priors of the defendant.</span>
+
+<span style="color:green">State the interpretations of the coefficients of the model. </span>
+
+
+##### CS1 version
+<span style="color:blue">
+Fit a model using the learning machine that outputs the probability of recidivism using the age and the number of priors of the defendant. 
+</span>
+
+For the threshold of $0.5$ on the probability, obtain the FPR, FNR, and correct classification rates for the model for the entire population, for black defendants, and for white defendants, on both the training and the validation sets.
+
+For a 30-year-old with 2 priors, what is the effect on the predicted probability of a re-arrest of one more prior offense?
+
+*Grading scheme*
+
+* Correct logistic regression: 3 pts
+
+* Correct interpretation (note: "interpretation of coefficients" is a term of art: just do what's in the slides): 2 pts
+
+* The FPR, FNR, and CCR are correctly computed: 3 pts
+
+* The numbers are presented in an easily readable and comprehensible way: 3 pts
+
+* Correct and easily understandable explanation of the numbers obtained for the 30-year-old with 2 priors: 4 pts
+
+#### Part 5: Adjusting thresholds (15 pts)
+
+One appealing definition of a fair model is that the model has the same probability of labelling a defendant low-risk regardless of demographics, if the defendant will not end up being re-arrested. Build such a model by finding a combination of thresholds (which can vary by demographics) that produces such a result. Try to keep the FNR and the FPR as low as possible.
+
+Report the FPR, FNR, and the correct classification rate of the system on the validation set, for the whole population.
+
+For this part, you may manually try different thresholds (while documenting your process) rather than write a program to do that for you.
+
+*Grading scheme*
+
+* Good process + description of finding a combination of demographic-dependent thresholds: 12 pts
+
+* Good report on the results: 3 pts
+

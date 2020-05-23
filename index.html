@@ -1,23 +1,99 @@
-<style>
-body {
-  font-family: "Roboto";
-  img {
-    padding: 40px;
-  }
-}
-</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Auditing the COMPAS Recidivism Risk Assessment Tool: Predictive Modeling and Fairness in Machine Learning in CS1</title>
+    <title>Auditing the COMPAS Recidivism Risk Assessment Tool</title>
+<!--
+Neaty HTML Template
+http://www.templatemo.com/tm-501-neaty
+-->
+    <!-- load stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" href="css/magnific-popup.css">                                <!-- Magnific pop up style, http://dimsemenov.com/plugins/magnific-popup/ -->
+    <link rel="stylesheet" href="css/templatemo-style.css">                                   <!-- Templatemo style -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
 </head>
-<body>
+    <body>        
+        <div class="container">
+            <div class="row">
+                <div class="tm-left-right-container">
+                    <!-- Left column: logo and menu -->
+                    <div class="tm-blue-bg tm-left-column">                        
+                        <nav class="tm-main-nav">
+                            <ul class="tm-main-nav-ul">
+                                <li class="tm-nav-item">
+                                    <a href="#Overview" class="tm-nav-item-link">Overview</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#Meta" class="tm-nav-item-link">Meta Information</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#IntroFair" class="tm-nav-item-link">Algorithmic fairness measures primer</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#ProgramR" class="tm-nav-item-link">Data Science Progamming with R</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#PythonDS" class="tm-nav-item-link">Data Science Progamming with Python</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#JavaDS" class="tm-nav-item-link">Data Science Progamming with Java</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#LearningMachine" class="tm-nav-item-link">Learning Machine API</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#Resources" class="tm-nav-item-link">Recommended Resources</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#Discussion" class="tm-nav-item-link">Discussing Fairness in Class</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#Handout" class="tm-nav-item-link">Assignment handout</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#Solutions" class="tm-nav-item-link">Assignment solutions</a>
+                                </li>
+                                <li class="tm-nav-item">
+                                    <a href="#Tutorials" class="tm-nav-item-link">Tutorials</a>
+                                </li>
+                            </ul>
+                        </nav>                                         
+                    </div> <!-- Left column: logo and menu -->
+                    
+                    <!-- Right column: content -->
+                    <div class="tm-right-column">
 
 
-<h1>Auditing the COMPAS Recidivism Risk Assessment Tool: Predictive Modeling and Fairness in Machine Learning in CS1</h1>
-<h2>Claire S. Lee, Jeremy Du, and Michael Guerzhoy</h2>
-<h2>Overview</h2>
-<img src = "learningmachine_cool3.png" align = "right" height = "310px">
+                        <div class="tm-content-div">
+                            <!-- Welcome section -->
+                            <section id="welcome" class="tm-section">
+                                <header>
+                                    <center><h2 class="tm-blue-text tm-welcome-title tm-margin-b-45">Auditing the COMPAS Recidivism Risk Assessment Tool</h2></center>
+                                     <center><h3 class="tm-blue-text tm-section-title tm-margin-b-45">Predictive Modeling and Fairness in Machine Learning in CS1</h3></center>
+                                     <center><h3 class="tm-blue-text tm-section-title tm-margin-b-45">Claire S. Lee, Jeremy Du, and Michael Guerzhoy</h3></center>
+
+                                </header>
+                                <p></p>
+                            </section>
+                            <!-- About section -->
+                            <section id="Overview" class="tm-section">
+                                <div class="row">                                                                
+
+                                        <header>
+                                            <h2 class="tm-blue-text tm-section-title tm-margin-b-45">Overview</h2>
+                                        </header>
+<img src = "img/learningmachine_cool3.png" align = "right" height = "310px">
 <p>Applications of machine learning, and predictive modeling in particular, are now everywhere: machine learning models diagnose our illnesses; decide whether to extend credit to us; and decide whether to grant us bail. Consideration of algorithmic fairness are coming to the forefront. It is important that the predictive learning models that have an impact on so many people's lives aren't biased with respect to protected characteristics such as race or sex.
 
 <p>In the criminal justice system in the U.S., risk assessment tools (RATs) are increasingly being used to assess a criminal defendant’s probability of re-offending. RATs use information such as the number of priors as well as questionnaire data from defendants.  In 2016, the non-profit journalism organization ProPublica analyzed COMPAS, a RAT made by Northpointe, Inc., to assess whether it was biased against African-American defendants. ProPublica <a href = "https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">found that COMPAS incorrectly labeled innocent African-American defendants as likely to reoffend twice as often as innocent white defendants</a>. In technical terms, this means the false positive parity measure of algorithmic fairness was not satisfied by the COMPAS system.
@@ -31,10 +107,17 @@ body {
 <p>Predictive modeling is usually not taught in introductory courses. In part, this is because it is traditionally taught in courses that require knowledge of calculus. Another reason is the complexity of working with machine learning libraries, most of which require extensive computing experience.
 
 <p>We believe that predictive modeling and algorithmic fairness can be made accessible to all students. We teach predictive modeling with logistic regression early by treating logistic regression as a black box. For students who are learning Python and Java, we address the complexity of the commonly-used machine learning libraries by creating a small number of wrapper functions that the students can use as black boxes. We supply drafts of tutorials covering the usage of those black boxes.
+                                    </div>
 
+                          
 
-<h2>Meta Information</h2>
-<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+                            </section>  
+
+                            <!-- Gallery One section -->     
+                            <section id="Meta" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-45">Meta Information</h2></header>
+                                <div class="row">
+                                    <table style="text-align: left; width: 100%;" border="1" cellpadding="7" cellspacing="7">
   <tbody>
     <tr>
       <td style="vertical-align: top;">Summary</td>
@@ -106,9 +189,14 @@ Students apply predictive modeling to build a model that predicts re-arrest of c
     </tr>
   </tbody>
 </table>
+                                </div>
+                            </section>
 
-<h2>Intro to Classifier Performance Measures and Observational Algorithmic Fairness Measures</h2>
-<p>Knowledge of the algorithmic fairness literature is not required to complete this assignment. We give a quick summary of what the students need to know. Links to further resources are provided.
+
+                            <section id="IntroFair" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30">Intro to Classifier Performance Measures and Observational Algorithmic Fairness Measures</h2></header>
+                                <div class="row">
+					<p>Knowledge of the algorithmic fairness literature is not required to complete this assignment. We give a quick summary of what the students need to know. Links to further resources are provided.
 
 <h3>Measures of Classifier Performance</h3>
 <p>We are considering a dataset where the output of interest is <tt>"positive"</tt>/<tt>"yes"</tt> (1) or <tt>"negative"</tt>/<tt>"no"</tt> (0). The outputs of our classifier are stored in the vector <tt>pred</tt>, and the correct outputs (i.e., the ground truth) are stored in the vector </tt>y</tt>. We can compute the following measures.
@@ -136,41 +224,68 @@ Students apply predictive modeling to build a model that predicts re-arrest of c
 
 
 
+                                </div>
+                            </section>
+
+                            <!-- Third Gallery section -->     
+                            <section id="ProgramR" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30"><i>Introduction to Data Science</i> and Programming in R</h2></header>
+                                <div class="row">
+						<p>We used the assignment presented here (in R) in an Introduction to Data Science class that has no computing prerequisites. Any practitioner of data science needs to be able to program, and this assignment was designed to help students learn to program. In particular, we reinforce the use of <tt>dplyr</tt>  for processing dataframes and of <tt>sapply</tt> for repeated computation that is not naturally done on dataframes.
+
+<p>Because we emphasize programming for beginners, we teach a restricted set of R. Experienced R users might find our style not as concise as it could have been.
+                                </div>
+                            </section>
 
 
 
-<h2>Introduction to Data Science and Programming in R</h2>
-We used the assignment presented here (in R) in an Introduction to Data Science class that has no computing prerequisites. Any practitioner of data science needs to be able to program, and this assignment was designed to help students learn to program. In particular, we reinforce the use of <tt>dplyr</tt>  for processing dataframes and of <tt>sapply</tt> for repeated computation that is not naturally done on dataframes.
 
-Because we emphasize programming for beginners, we teach a restricted set of R. Experienced R users might find our style not as concise as it could have been. 
+       
 
 
-<h2>The Learning Machine API</h2>
-<p>For the Python and Java versions of the assignment, we encapsulate logistic regression in a <tt>learningmachine</tt> module/<tt>LearningMachine</tt> class. The idea is to let CS1 students concentrate on programming and to quickly grasp the idea of a black box that takes in a training set and spits out a model that can make predictions for new data. We hope that avoiding the need to spend several lectures on properly teaching subsets of <tt>scikit-learn</tt> or <tt>Weka</tt> will enable CS1 instructors to teach predictive modeling in their course.
+            <section id="PythonDS" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30">Python and Data Science Programming</h2></header>
+                                <div class="row">
+							<p>Python is the most commonly-used language in data science. However, we find that the most commonly used libraries -- <tt>scikit-learn</tt> and <tt>Pandas</tt> &mdash; are not beginner friendly. CS1 courses would struggle to explain the details of those libraries to students. For that reason, we provide a simplified API students can use. Some instructors will choose to use NumPy, making the code for this assignment more concise. We chose to avoid <tt>NumPy</tt> as well to reduce the amount of dependencies.
 
-<h2>Python and Data Science Programming</h2>
-Python is the most commonly-used language in data science. However, we find that the most commonly used libraries -- <tt>scikit-learn</tt> and <tt>Pandas</tt> &mdash; are not beginner friendly. CS1 courses would struggle to explain the details of those libraries to students. For that reason, we provide a simplified API students can use. Some instructors will choose to use NumPy, making the code for this assignment more concise. We chose to avoid <tt>NumPy</tt> as well to reduce the amount of dependencies.
-
-We find that for many of the tasks required for this assignment, Python (without NumPy) would be more wordy and less natural. As a simple illustration, in R, we would compute the false negative rate for binary classifier outputs <tt>pred</tt> and expected outputs <tt>y</tt> as
+<p>We find that for many of the tasks required for this assignment, Python (without NumPy) would be more wordy and less natural. As a simple illustration, in R, we would compute the false negative rate for binary classifier outputs <tt>pred</tt> and expected outputs <tt>y</tt> as
 
 <pre>sum((pred == 0) & (y == 1))/sum(y == 1)</pre>
 
-Python without <tt>NumPy</tt> is much wordier. Nevertheless, we think that the tasks in this assignment are representative of good Python exercises for nested lists and loops.
+<p>Python without <tt>NumPy</tt> is much wordier. Nevertheless, we think that the tasks in this assignment are representative of good Python exercises for nested lists and loops.
+
+                                </div>
+                            </section>
 
 
-<h2>Java and Data Science Programming</h2>
 
-
+            <section id="JavaDS" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30">Java and Data Science Programming</h2></header>
+                                <div class="row">
+							
 <p>Java (without additional libraries) is not considered to be as well-suited for data science programming as R or Python. Operating on Java arrays is more awkward than operating on Python lists or R vectors. Fixed array lengths, and the lack of vectorization make life more difficult (but of course have their advantages). Data science programming naturally lends itself to writing scripts that run in notebooks (we use Jupyter Notebook for Python and R Markdown for R); such a style is basically impossible in Java: students instead write a program that outputs all the numbers they need.
 
 <p>The challenges encountered when doing this assignment in Java are in many ways similar to the challenges encountered when doing scientific computing in Java in CS1. The goal of reinforcing basic programming skills while learning data science would still be achieved.
 
 <p>Our API is meant to address some of those difficulties. Nevertheless, the assignment is more difficult to do in Java than in R or Python.
 
+                                </div>
+                            </section>
 
 
+                     <section id="LearningMachine" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30">The Learning Machine API</h2></header>
+                                <div class="row">
+							<p>For the Python and Java versions of the assignment, we encapsulate logistic regression in a <tt>learningmachine</tt> module/<tt>LearningMachine</tt> class. The idea is to let CS1 students concentrate on programming and to quickly grasp the idea of a black box that takes in a training set and spits out a model that can make predictions for new data. We hope that avoiding the need to spend several lectures on properly teaching subsets of <tt>scikit-learn</tt> or <tt>Weka</tt> will enable CS1 instructors to teach predictive modeling in their course.
 
-<h2>Recommended Resources</h2>
+                                </div>
+                            </section>
+
+
+            <section id="Resources" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30">Recommended Resources</h2></header>
+                                <div class="row">
+							
 <ul>
 <li>Arvind Narayanan, <a href = "https://www.youtube.com/watch?v=jIXIuYdnyyk">21 Fairness Definitions and Their Politics</a> (video tutorial)
 <li>Julia Angwin, Jeff Larson, Surya Mattu and Lauren Kirchner, <a href = "https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing">Machine Bias
@@ -179,18 +294,34 @@ Python without <tt>NumPy</tt> is much wordier. Nevertheless, we think that the t
 <li>Sam Corbett-Davies, Emma Pierson, Avi Feller and Sharad Goel, <a href = "https://www.washingtonpost.com/news/monkey-cage/wp/2016/10/17/can-an-algorithm-be-racist-our-analysis-is-more-cautious-than-propublicas/">Can an Algorithm be Racist</a> (a post on the <i>Washington Post</i> website explaining the issues that arise with using false positive parity as a measure of algorithmic fairness)
 </ul>
 
-<h2>Discussing Algorithmic Fairness in Class</h2>
+      </div>
+                            </section>
+
+
+    <section id="Discussion" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30">Discussing Algorithmic Fairness in Class</h2></header>
+                                <div class="row">
 <p>Our goal is to make students aware of some of the issues around algorithmic fairness. Algorithmic fairness goes beyond the simple observational measures that the students compute in this assignment, and whole courses can be devoted to it. It is important that students understand that algorithmic fairness is not a mere matter of not using sensitive characteristics such as sex or race as inputs to predictive models, nor is it just a matter of measuring disparities in false positive and false negatives. 
 
 <p>In the assignment, we ask the students to adjust the models in order to achieve false positive parity. This demonstrates one way to address some of the issues that arise. However, the assignment should serve as a starting point for a discussion.
 
+                                </div>
+                            </section>
 
-<h2>Assignment Handout</h2>
+
+            <section id="Handout" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30">Assignment handout</h2></header>
+                                <div class="row">
 <p><a href = "handout/index.html">Assignment handout</a> (<a href = "handout/index.Rmd">Markdown source</a>)
+                                </div>
+                            </section>
 
 
 
-<h2>Draft Solutions</h2>
+            <section id="Solutions" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30">Solutions</h2></header>
+                                <div class="row">
+
 <p><i>Solutions will be made available to instructors who use the assignment</i>.
 
 <p><b>Solutions in R</b>: <a href = "r_soln/index.html">HTML report</a>, <a href = "r_soln/index.Rmd">Rmd source</a>
@@ -205,10 +336,13 @@ Python without <tt>NumPy</tt> is much wordier. Nevertheless, we think that the t
 <ul>
 	<li>Please consult the tutorial notes below, and download the accompanying classes.
 </ul>
+                                </div>
+                            </section>
 
-<h2>Draft Tutorials</h2>
-<p><i>Tutorials will be made available publicly</i>.
 
+            <section id="Tutorials" class="tm-section">
+                                <header><h2 class="tm-blue-text tm-section-title tm-margin-b-30">Tutorials</h2></header>
+                                <div class="row">
 <h3>Python tutorial</h3>
 <ul>
 	<li><a href = "py_tutorial/PredictiveModelingTutorial.html">Python tutorial</a> (HTML)
@@ -228,7 +362,61 @@ Python without <tt>NumPy</tt> is much wordier. Nevertheless, we think that the t
 	
 </ul>
 
+                                </div>
+                            </section>
 
 
+
+                                
+                            </section>
+                            <footer>                                
+                                | Website templateby <a href="http://www.templatemo.com" target="_parent">templatemo</a></p>
+                            </footer>
+                        </div>  
+                        
+                    </div> <!-- Right column: content -->
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+                
+        <!-- load JS files -->
+        <script src="js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->
+        <script src="js/jquery.magnific-popup.min.js"></script>     <!-- Magnific pop-up (http://dimsemenov.com/plugins/magnific-popup/) -->
+        <script src="js/jquery.singlePageNav.min.js"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
+        <script>     
+       
+            $(document).ready(function(){
+
+                // Single page nav
+                $('.tm-main-nav').singlePageNav({
+                    'currentClass' : "active",
+                    offset : 20
+                });
+
+                // Magnific pop up
+                $('.tm-gallery-1').magnificPopup({
+                  delegate: 'a', // child items selector, by clicking on it popup will open
+                  type: 'image',
+                  gallery: {enabled:true}
+                  // other options
+                }); 
+
+                $('.tm-gallery-2').magnificPopup({
+                  delegate: 'a', // child items selector, by clicking on it popup will open
+                  type: 'image',
+                  gallery: {enabled:true}
+                  // other options
+                }); 
+
+                $('.tm-gallery-3').magnificPopup({
+                  delegate: 'a', // child items selector, by clicking on it popup will open
+                  type: 'image',
+                  gallery: {enabled:true}
+                  // other options
+                }); 
+
+                $('.tm-current-year').text(new Date().getFullYear());                
+            });
+        </script>             
 </body>
 </html>

@@ -1,0 +1,177 @@
+/* SIDEBAR NAVIGATION */
+#main, .sidebar {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+}
+
+.sidebar {
+  width: 0;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(11, 33, 65);
+  overflow-x: hidden;
+  font-size: 16px;
+  text-align: left;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  display: block;
+  color: white !important;
+  text-align: left;
+  padding: 20px 20px;
+  text-decoration: none !important;
+  transition: 0.3s;
+}
+
+.sidebar .xbutton {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  font-size: 30px;
+  margin-left: 200px;
+}
+
+.hamburger-icon {
+  font-size: 30px;
+  cursor: pointer;
+  border: none;
+  background: white;
+  padding: 0;
+  position: absolute;
+  background-color: none;
+}
+
+/* MAIN */
+#main {
+  margin: 60px;
+  transition: margin-left .5s;
+}
+
+h1{
+  margin-top: 5px;
+  font-size: 36px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+h2{
+  margin-top: 60px;
+  font-size: 30px;
+}
+
+h2#title {
+  margin: 0 auto;
+}
+
+h2#author {
+  margin: 0 auto;
+  margin-top: 15px;
+  font-size: 23px;
+  text-align: center;
+}
+
+h1, h2 {
+  color: rgb(11, 33, 65);
+}
+
+h1, h2#title {
+  text-align: center;
+}
+ 
+h3{
+  font-size: 23px;
+}
+
+p, ul{
+  font-weight: 300;
+}
+
+li {
+  margin-bottom: 10px;;
+}
+
+/* SCREEN SIZE FORMATTNG */
+/* @media screen and (max-width: 400px) {
+  img {
+    width: 400px;
+  }
+} */
+
+/* IMAGE FORMATTING */
+img {
+  max-width: 100%;
+}
+
+.right {
+  float: right;
+  padding-left: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/* HYPERLINK FORMATTING */
+a{
+  text-decoration: none;
+  
+}
+a:link {
+  color: rgb(38, 96, 182);
+}
+
+a:visited {
+  color: rgb(25, 67, 129);
+}
+
+a:hover{
+  text-decoration: underline;
+}
+
+/* TABLE FORMATTING */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+}
+
+td, th {
+  padding: 9px;
+  width: 25%;
+  border-left: 1px solid rgb(201, 198, 198);
+  border-right: 1px solid rgb(201, 198, 198);
+}
+
+td{
+  background-color:whitesmoke;
+  border-bottom: 1px solid rgb(201, 198, 198);
+}
+
+th {
+  background-color: rgb(11, 33, 65);
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+th:first-of-type {
+  border-left: 1px solid rgb(11, 33, 65);
+}
+
+th:last-of-type{
+  border-right: 1px solid rgb(11, 33, 65);
+}
+
+tr:last-child{
+  border-bottom: 1px solid rgb(201, 198, 198);
+}
+
+/* META INFORMATION TABLE FORMATTING */
+table#meta-table td {
+  border-bottom: none;
+}
